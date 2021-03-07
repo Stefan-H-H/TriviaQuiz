@@ -1,30 +1,36 @@
+import {useState } from "react";
+
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      let temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+  }
+  return array
+}
+
+const addCorrectAnswerAndShuffle = (correctAnswer, otherAnswers) => {
+  otherAnswers.push(correctAnswer);
+  // return shuffleArray(otherAnswers);
+  return otherAnswers;
+}
+
+
 const Answers = props => {
+  const {correctAnswer, allAnswers, checkAnswer, answerStyles, parseEntities} = props;
+
+
+  console.log(allAnswers);
+  console.log(correctAnswer);
+
   return (
-  <div className="container">
-    <div className="row mb-3">
-      <div className="col">
-        <button type="button" className="btn btn-primary">
-          <span>A</span> First Answer
-        </button>
-      </div>
-      <div className="col">
-        <button type="button" className="btn btn-primary">
-          <span>B</span> Second Answer
-        </button>
-      </div>
-    </div>
-    <div className="row">
-      <div className="col">
-        <button type="button" className="btn btn-primary">
-          <span>C</span> Third Answer
-        </button>
-      </div>
-      <div className="col">
-        <button type="button" className="btn btn-primary">
-          <span>D</span> Fourth Answer
-        </button>
-      </div>
-    </div>
+  <div className="container mt-4">
+    {allAnswers.map((answer,index) => 
+    <button key={index} id={index} type="button" className={answerStyles[index]} onClick={(e)=>checkAnswer(e)}>
+      {parseEntities(answer)}
+    </button>
+    )}
   </div>
   )
 }

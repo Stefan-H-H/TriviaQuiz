@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import FinalScoreModal from "../components/FinalScoreModal";
+import Loading from "../components/Loading";
 import NavBar from "../components/NavBar";
 import Question from "../components/Question";
 
@@ -28,6 +30,7 @@ const App = () => {
   const[quizQuestions, setQuizQuestions] = useState(null);
   const[questionIdx, setQuestionIdx] = useState(null);
   const[questionCount, setQuestionCount] = useState(0);
+  const[score, setScore] = useState(0);
 
   useEffect(() => {
     if (status === STATUS.LOADING){
@@ -43,18 +46,32 @@ const App = () => {
         console.log(error);
       })
     }
-  },[status])
+  },[status,questionIdx])
+
+
+
+  const increaseScore = () => {
+    setScore(score + 1);
+  }
+
+  const nextQuestion = () => {
+    setQuestionIdx(questionIdx + 1)
+  }
+
 
 
   return (
     <>
       <NavBar />
+      <FinalScoreModal score={score} questionCount={questionCount}/>
       {status === STATUS.LOADING 
-        ? <h1>Loading...</h1> 
+        ? <Loading />
         : <Question 
             questionNumber={questionIdx + 1} 
             questionCount={questionCount} 
             question={quizQuestions[questionIdx]}
+            increaseScore={increaseScore}
+            nextQuestion={nextQuestion}
             />
       }
     </>
