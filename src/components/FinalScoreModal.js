@@ -2,8 +2,16 @@ import { useState } from "react";
 import { Modal } from "bootstrap";
 
 const FinalScoreModal = (props) => {
-  const {score, questionCount} = props;
-  // TO DO:  RESTART QUIZ FUNCTION FROM PROPS? (BACK TO CONFIG)
+  const {score, questionCount, updateShowSettings, updateShowQuiz, updateScore} = props;
+
+  const startNewQuiz = () => {
+    let finalScoreModalDiv = document.getElementById("finishQuizModal");
+    let finishQuizModal = Modal.getInstance(finalScoreModalDiv);
+    finishQuizModal.hide();
+    updateShowSettings(true);
+    updateShowQuiz(false);
+    updateScore(0);
+  }
 
   return (
     <div
@@ -30,7 +38,7 @@ const FinalScoreModal = (props) => {
             <h3>Your score: {score}/{questionCount}</h3>
           </div>
           <div className="modal-footer">
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-primary" onClick={() => startNewQuiz()}>
               Start New Quiz
             </button>
           </div>

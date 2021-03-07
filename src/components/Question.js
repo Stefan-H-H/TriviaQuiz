@@ -82,7 +82,7 @@ const Question = (props) => {
     // TODO: Need to set Maximum Width for the Card
     // How to make sure the category, difficult, and question render?
     <div className="container mt-5">
-      <div className="card text-center">
+      <div className="card">
         <div className="card-header">
           <h3 className="float-start">
             Question {questionNumber}/{questionCount}
@@ -94,7 +94,7 @@ const Question = (props) => {
             {difficulty}
           </span>
         </div>
-        <div className="card-body">
+        <div className="card-body text-lg-center">
           <h5 className="card-title">{parseEntities(question)}</h5>
           <Answers
             correctAnswer={correctAnswer}
@@ -105,14 +105,14 @@ const Question = (props) => {
           />
         </div>
         {showNextQuestionBtn ? (
-          <div className="card-footer">
+          <div className="card-footer text-center">
             <button type="button" className="btn btn-dark" onClick={() => moveToNextQuestion()}>
               Next Question
             </button>
           </div>
         ) : null}
         {showFinishQuizBtn ? (
-          <div className="card-footer">
+          <div className="card-footer text-center">
             <button type="button" className="btn btn-dark" data-bs-toggle="modal"
                 data-bs-target="#finishQuizModal">
               Finish Quiz

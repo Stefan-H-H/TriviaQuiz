@@ -21,7 +21,7 @@ const NavBar = (props) => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        {/* <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <button
@@ -30,12 +30,11 @@ const NavBar = (props) => {
                 data-bs-toggle="modal"
                 data-bs-target="#addProjectModal"
               >
-                  {/* TO DO: Creat Configuration Form For Quizzes */}
                 <FontAwesomeIcon icon={faCog} /> Configuration
               </button>
             </li>
           </ul>
-        </div>
+        </div> */}
       </div>
     </nav>
   );
