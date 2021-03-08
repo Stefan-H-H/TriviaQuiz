@@ -1,17 +1,15 @@
-import { useState } from "react";
 import { Modal } from "bootstrap";
 
 const FinalScoreModal = (props) => {
-  const {score, questionCount, updateShowSettings, updateShowQuiz, updateScore} = props;
+  const { score, questionCount, updateScore, goToSettingsOrQuiz } = props;
 
   const startNewQuiz = () => {
     let finalScoreModalDiv = document.getElementById("finishQuizModal");
     let finishQuizModal = Modal.getInstance(finalScoreModalDiv);
     finishQuizModal.hide();
-    updateShowSettings(true);
-    updateShowQuiz(false);
+    goToSettingsOrQuiz(false, true);
     updateScore(0);
-  }
+  };
 
   return (
     <div
@@ -35,10 +33,16 @@ const FinalScoreModal = (props) => {
             ></button>
           </div>
           <div className="modal-body text-center">
-            <h3>Your score: {score}/{questionCount}</h3>
+            <h3>
+              Your score: {score}/{questionCount}
+            </h3>
           </div>
           <div className="modal-footer">
-            <button type="submit" className="btn btn-primary" onClick={() => startNewQuiz()}>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              onClick={() => startNewQuiz()}
+            >
               Start New Quiz
             </button>
           </div>

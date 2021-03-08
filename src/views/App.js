@@ -4,15 +4,15 @@ import Loading from "../components/Loading";
 import NavBar from "../components/NavBar";
 import Question from "../components/Question";
 import QuizSettings from "../components/QuizSettings";
+
 import {
   CATEGORIES,
-  ANY_CATEGORY,
-  ANY_DIFFICULTY,
   QUESTION_DIFFICULTIES,
   ANY,
   CATEGORY_ID_MAP,
-  DUMMY_DATA,
 } from "../data/data";
+import FailMessage from "../components/FailMessage";
+import NoMatchMessage from "../components/NoMatchMessage";
 
 export const STATUS = {
   LOADING: "loading",
@@ -20,19 +20,14 @@ export const STATUS = {
   FAIL: "fail",
 };
 
-const buildURL = (params) => {
-  // TODO: build helper function for creating URL
-};
-
 const requestQuiz = async (userParams) => {
-  // TODO: build URL & return response
   const BASE_URL = "https://opentdb.com/api.php";
   let url = BASE_URL + createQueryString(userParams);
   let response = await fetch(url);
   let quizData = await response.json();
   return quizData;
 };
-// https://opentdb.com/api.php?amount=10&category=9&difficulty=easy
+
 const createQueryString = (userParams) => {
   let params = [];
   for (let p in userParams) {
@@ -50,7 +45,6 @@ const findCategoryId = (category) => {
 };
 
 const App = () => {
-  // const[status, setStatus] = useState(STATUS.LOADING);
   const [params, setParams] = useState({
     amount: 1,
     category: ANY,
@@ -59,9 +53,9 @@ const App = () => {
   const [responseCode, setResponseCode] = useState(0);
   const [categories, setCategories] = useState(CATEGORIES);
   const [difficulties, setDifficulties] = useState(QUESTION_DIFFICULTIES);
-  const [quizQuestions, setQuizQuestions] = useState(DUMMY_DATA);
+  const [quizQuestions, setQuizQuestions] = useState(null);
   const [questionIdx, setQuestionIdx] = useState(0);
-  const [questionCount, setQuestionCount] = useState(1);
+  const [questionCount, setQuestionCount] = useState(0);
   const [score, setScore] = useState(0);
   const [showQuiz, setShowQuiz] = useState(false);
   const [showSettings, setShowSettings] = useState(true);
@@ -93,33 +87,36 @@ const App = () => {
     setQuestionIdx(questionIdx + 1);
   };
 
+  const goToSettingsOrQuiz = (showQuiz, showSettings) => {
+    setShowQuiz(showQuiz);
+    setShowSettings(showSettings);
+  };
+
   return (
     <>
       <NavBar />
       <FinalScoreModal
         score={score}
         questionCount={questionCount}
-        updateShowQuiz={setShowQuiz}
-        updateShowSettings={setShowSettings}
+        goToSettingsOrQuiz={goToSettingsOrQuiz}
         updateScore={setScore}
       />
-      {showSettings && (
-        <QuizSettings
-          categories={categories}
-          difficulties={difficulties}
-          amount={params.amount}
-          category={params.category}
-          difficulty={params.difficulty}
-          updateParams={setParams}
-          updateStatus={setStatus}
-          updateShowQuiz={setShowQuiz}
-          updateShowSettings={setShowSettings}
-        />
-      )}
+      <QuizSettings
+        showSettings={showSettings}
+        categories={categories}
+        difficulties={difficulties}
+        amount={params.amount}
+        category={params.category}
+        difficulty={params.difficulty}
+        updateParams={setParams}
+        updateStatus={setStatus}
+        goToSettingsOrQuiz={goToSettingsOrQuiz}
+      />
       {status === STATUS.LOADING ? (
         <Loading />
       ) : (
-        showQuiz && (
+        showQuiz &&
+        questionCount > 0 && (
           <Question
             questionNumber={questionIdx + 1}
             questionCount={questionCount}
@@ -129,6 +126,17 @@ const App = () => {
           />
         )
       )}
+      <NoMatchMessage
+        status={status}
+        setResponseCode={setResponseCode}
+        setShowSettings={setShowSettings}
+        responseCode={responseCode}
+      />
+      <FailMessage
+        status={status}
+        goToSettingsOrQuiz={goToSettingsOrQuiz}
+        showSettings={showSettings}
+      />
     </>
   );
 };
