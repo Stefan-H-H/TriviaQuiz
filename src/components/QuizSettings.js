@@ -13,17 +13,27 @@ const QuizSettings = (props) => {
     goToSettingsOrQuiz,
   } = props;
 
+  const MIN_QUESTIONS = 1;
+  const MAX_QUESTIONS = 50;
+
+  /**
+   * Handler for quiz configuration submission.
+   * Fetches the quiz data from API and displays
+   * Quiz questions to user.
+   * @param {*} e - event
+   */
   const formSubmit = (e) => {
     e.preventDefault();
     goToSettingsOrQuiz(true, false);
     updateStatus(STATUS.LOADING);
   };
 
-  let isValidNumberOfQuestions = amount >= 1 && amount <= 50;
+  let isValidNumberOfQuestions =
+    amount >= MIN_QUESTIONS && amount <= MAX_QUESTIONS;
 
   return (
     showSettings && (
-      <div className="container mt-5">
+      <div className="container mt-5" style={{ maxWidth: "800px" }}>
         <form onSubmit={formSubmit} className="needs-validation">
           <div>
             <label htmlFor="amount" className="form-label">
@@ -41,8 +51,8 @@ const QuizSettings = (props) => {
                   difficulty,
                 })
               }
-              min="1"
-              max="50"
+              min={MIN_QUESTIONS}
+              max={MAX_QUESTIONS}
             />
           </div>
           <div
@@ -53,7 +63,7 @@ const QuizSettings = (props) => {
                 : { display: "none" }
             }
           >
-            Please provide a number between 1 - 50.
+            {`Please provide a number between ${MIN_QUESTIONS} - ${MAX_QUESTIONS}.`}
           </div>
           <div className="mt-3">
             <label htmlFor="triviaCategory" className="form-label">

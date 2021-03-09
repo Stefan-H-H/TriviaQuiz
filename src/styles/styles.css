@@ -8,10 +8,24 @@
     height: 100vh;
 }
 
-.spinner {
+.spinner-border {
+    width: 5rem;
+    height: 5rem;
     font-size: 4em;
 }
 
-body {
+.rounded-pill {
+    font-size: 1em;
+}
+
+.answers .btn {
+    font-size: 1.25em;
+}
+
+.card-footer .btn {
+    font-size: 1.25em;
+}
+
+.needs-validation {
     font-size: 1.25em;
 }

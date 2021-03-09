@@ -4,22 +4,29 @@ import Loading from "../components/Loading";
 import NavBar from "../components/NavBar";
 import Question from "../components/Question";
 import QuizSettings from "../components/QuizSettings";
-
+import FailMessage from "../components/FailMessage";
+import NoMatchMessage from "../components/NoMatchMessage";
 import {
   CATEGORIES,
   QUESTION_DIFFICULTIES,
   ANY,
   CATEGORY_ID_MAP,
 } from "../data/data";
-import FailMessage from "../components/FailMessage";
-import NoMatchMessage from "../components/NoMatchMessage";
 
+/**
+ * Network Status Constants
+ */
 export const STATUS = {
   LOADING: "loading",
   SUCCESS: "success",
   FAIL: "fail",
 };
 
+/**
+ * Fetches quiz data from Open Trivia API
+ * @param {*} userParams - the user specified parameters
+ * @returns {*} quizData response
+ */
 const requestQuiz = async (userParams) => {
   const BASE_URL = "https://opentdb.com/api.php";
   let url = BASE_URL + createQueryString(userParams);
@@ -28,6 +35,11 @@ const requestQuiz = async (userParams) => {
   return quizData;
 };
 
+/**
+ * Helper function to create a query string used for the Open Trivia API
+ * @param {Object} userParams - the user specified parameters
+ * @returns {String} query string
+ */
 const createQueryString = (userParams) => {
   let params = [];
   for (let p in userParams) {
@@ -40,6 +52,11 @@ const createQueryString = (userParams) => {
   return params.length === 0 ? "" : "?" + params.join("&");
 };
 
+/**
+ * Helper Method finding the ID associated with the
+ * @param {String} category - Trivia Category
+ * @returns {Number} ID of category
+ */
 const findCategoryId = (category) => {
   return CATEGORY_ID_MAP[category];
 };
@@ -79,14 +96,25 @@ const App = () => {
     }
   }, [status, questionIdx, params]);
 
+  /**
+   * Increases quiz score
+   */
   const increaseScore = () => {
     setScore(score + 1);
   };
 
+  /**
+   * Increment Question index.
+   */
   const nextQuestion = () => {
     setQuestionIdx(questionIdx + 1);
   };
 
+  /**
+   * Sets boolean flags to display components
+   * @param {Boolean} showQuiz - flag to show questions (true) or not (false)
+   * @param {Boolean} showSettings - flag to show quiz settings (true) or not (false)
+   */
   const goToSettingsOrQuiz = (showQuiz, showSettings) => {
     setShowQuiz(showQuiz);
     setShowSettings(showSettings);

@@ -3,6 +3,10 @@ import { Modal } from "bootstrap";
 const FinalScoreModal = (props) => {
   const { score, questionCount, updateScore, goToSettingsOrQuiz } = props;
 
+  /**
+   * Handler when user clicks the "Start New Quiz" button.
+   * Sends user back to Settings view.
+   */
   const startNewQuiz = () => {
     let finalScoreModalDiv = document.getElementById("finishQuizModal");
     let finishQuizModal = Modal.getInstance(finalScoreModalDiv);

@@ -5,6 +5,10 @@ import { STATUS } from "../views/App";
 const NoMatchMessage = (props) => {
   const { status, responseCode, setResponseCode, setShowSettings } = props;
 
+  /**
+   * Handler when user clicks on  "Trivia Criteria" button.
+   * User is sent back to settings view.
+   */
   const goToSettings = () => {
     setResponseCode(0);
     setShowSettings(true);

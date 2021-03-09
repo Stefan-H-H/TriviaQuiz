@@ -1,20 +1,10 @@
 const Answers = (props) => {
-  const {
-    correctAnswer,
-    allAnswers,
-    checkAnswer,
-    answerStyles,
-    parseEntities,
-  } = props;
-
-  console.log(allAnswers);
-  console.log(correctAnswer);
+  const { allAnswers, checkAnswer, answerStyles, parseEntities } = props;
 
   return (
-    <div className="container mt-4 d-grid text-sm-start">
+    <div className="answers container mt-4 d-grid">
       {allAnswers.map((answer, index) => (
         <button
-          className="align-left"
           key={index}
           id={index}
           type="button"
